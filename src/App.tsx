@@ -4,7 +4,7 @@ import Loader from "./components/Loader";
 import Table from "./components/Table";
 
 function App() {
-  const { data } = useFetchData();
+  const data = useFetchData();
 
   if (Object.keys(data).length === 0) {
     return <Loader />;

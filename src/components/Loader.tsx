@@ -1,7 +1,6 @@
-import React from "react";
 
 function Loader() {
-  return <div className="loader"></div>;
+  return <div className="loader" aria-live="assertive" role="status"></div>;
 }
 
 export default Loader;

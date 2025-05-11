@@ -1,4 +1,14 @@
 import { BUTTON_TYPE } from "../constant";
+import type { ButtonTypeT } from "../types";
+
+type PaginationT = {
+  totalPage: number;
+  activePage: number;
+  isStart: boolean;
+  isLast: boolean;
+  handleButtonClick: (e: React.MouseEvent<HTMLDivElement>) => void;
+  handlePrevNext: (buttonType: ButtonTypeT) => void;
+};
 
 function Pagination({
   totalPage,
@@ -7,7 +17,8 @@ function Pagination({
   isLast,
   handleButtonClick,
   handlePrevNext,
-}) {
+}: PaginationT) {
+  if (totalPage < 2) return null;
   return (
     <div className="container">
       <div className="pagination">
@@ -16,10 +27,15 @@ function Pagination({
           className="prev"
           type="button"
           disabled={isStart}
+          aria-label="Previous Page"
         >
           Prev
         </button>
-        <div className="pagebuttons" onClick={handleButtonClick}>
+        <div
+          className="pagebuttons"
+          onClick={handleButtonClick}
+          aria-live="polite"
+        >
           {Array(totalPage)
             .fill("")
             .map((_, index) => {
@@ -30,6 +46,8 @@ function Pagination({
                   }`}
                   type="button"
                   data-buttonId={index}
+                  key={index}
+                  aria-label={`Go to page ${index + 1}`}
                 >
                   {index + 1}
                 </button>
@@ -41,6 +59,7 @@ function Pagination({
           className="next"
           type="button"
           disabled={isLast}
+          aria-label="Next Page"
         >
           Next
         </button>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { API_ENDPOINT } from "./constant";
+import type { PaginatedData } from "./types";
 
 const MAX_RECORD_EACH_PAGE = 5;
 
@@ -8,9 +9,10 @@ const fetchData = async () => {
   const jsonResp = await respStreamData.json();
   return jsonResp;
 };
-const modifyDataForPagination = (data) => {
-  const pageWiseData = [];
-  let tempArr = [];
+const modifyDataForPagination = (data: PaginatedData): PaginatedData[] => {
+  const pageWiseData: PaginatedData[] = [];
+  let tempArr: PaginatedData = [];
+
   data.forEach((obj, index) => {
     if (index !== 0 && index % MAX_RECORD_EACH_PAGE === 0) {
       pageWiseData.push(tempArr);
@@ -18,11 +20,16 @@ const modifyDataForPagination = (data) => {
     }
     tempArr.push(obj);
   });
-  console.log(pageWiseData)
+
+  // Push the last batch
+  if (tempArr.length > 0) {
+    pageWiseData.push(tempArr);
+  }
+
   return pageWiseData;
 };
-const useFetchData = () => {
-  const [data, setData] = useState({});
+const useFetchData = (): PaginatedData[] => {
+    const [data, setData] = useState<PaginatedData[]>([]); // Update the type
 
   useEffect(() => {
     const fetchAndSetData = async () => {
@@ -32,9 +39,7 @@ const useFetchData = () => {
     fetchAndSetData();
   }, []);
 
-  return {
-    data,
-  };
+  return data;
 };
 export default useFetchData;
 
