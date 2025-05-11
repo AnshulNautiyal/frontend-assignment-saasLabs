@@ -23,9 +23,11 @@ const Column = () => {
 };
 const Row = ({ data }: RowProps) => {
   return data.map((rowData, index) => {
+    console.log(Object.values(KEY_NAME),rowData)
     return (
       <tr key={index}>
         {(Object.values(KEY_NAME) as KeyNameValuesT[]).map((eachKeyName) => {
+          console.log('eachKeyName',eachKeyName)
           return <td key={rowData[eachKeyName]}>{rowData[eachKeyName]}</td>;
         })}
       </tr>
